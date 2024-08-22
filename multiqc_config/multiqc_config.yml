@@ -1,0 +1,21 @@
+title: "Read QC"
+
+report_header_info:
+  - Pipeline: "read_QC"
+  - Version: "v0.0.1"
+  - Help contact: "https://jira.sanger.ac.uk/servicedesk/customer/portal/16/group/57"
+
+export_plots: true
+disable_version_detection: true
+
+#clean names
+fn_clean_exts:
+  ".prefilter"
+
+# Run only these modules
+run_modules:
+  - fastqc
+  - kraken
+
+kraken:
+  top_n: 5

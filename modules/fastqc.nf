@@ -11,9 +11,11 @@ process FASTQC {
 
     output:
     tuple val(meta), path("*.html"), emit: html
-    tuple val(meta), path("*zip"), emit: zip
+    tuple val(meta), path(read_1_fastqc), path(read_2_fastqc), emit: zip
 
     script:
+    read_1_fastqc = "${meta.ID}_1_fastqc.zip"
+    read_2_fastqc = "${meta.ID}_2_fastqc.zip"
     """
     fastqc \
         -f fastq \

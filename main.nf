@@ -11,8 +11,8 @@ workflow {
     | (FASTQC & KRAKEN2BRACKEN)
 
     MULTIQC(
-        FASTQC.out.zip.collect{it[1]},
-        KRAKEN2BRACKEN.out.ch_kraken2_style_bracken_reports
+        FASTQC.out.zip.collect{it[1,2]},
+        KRAKEN2BRACKEN.out.ch_kraken2_style_bracken_reports.collect{it[1]}
     )
 
     if (!params.skip_cleanup) {

@@ -17,5 +17,23 @@ run_modules:
   - fastqc
   - kraken
 
-kraken:
-  top_n: 5
+module_order:
+  - fastqc:
+      name: "FastQC (raw reads)"
+      info: "This section of the report shows FastQC results."
+      path_filters:
+        - "*.zip"
+
+  - kraken:
+      name: "Kraken 2"
+      info: "This section of the report shows Kraken 2 classification results."
+
+# Kraken2 module configuration
+module_settings:
+  kraken:
+    top_n: 5
+    title: "Read QC"  # Set custom title for Kraken2 reports
+
+# Ensure Kraken2 files are properly matched
+fn_glob:
+  kraken: "*.tsv"

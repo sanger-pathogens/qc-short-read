@@ -4,6 +4,8 @@ process FASTQC {
     label 'mem_2'
     label 'time_12'
 
+    publishDir "${params.outdir}/${meta.ID}/fastqqc/", pattern: "*.zip", mode: 'copy', overwrite: true
+
     container 'quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0'
 
     input:

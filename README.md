@@ -33,9 +33,15 @@ to instead
 nextflow run .
 ```
 
-In additon to that you should tailor your profile to match the container method you wish to use options are:
+In additon to that you should tailor your profile to match the container method you wish to use:
 
+This is changed with the flag:
+```
 -profile
+```
+
+Supported options are:
+
 * singularity
 * docker
 * conda

@@ -46,3 +46,5 @@ Supported options are:
 * singularity
 * docker
 * conda
+
+excluding any profiles defaults to use LSF intergration as well as singularity for containers

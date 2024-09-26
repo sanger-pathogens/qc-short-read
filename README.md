@@ -14,6 +14,6 @@ Welcome to the **QC-short-read** repository.
 
 Comprehensive documentation for this project is hosted on confluence. You can access it via the sidebar, or by clicking the link below:
 
-🔗 [External Wiki](#)
+🔗 [External Wiki](https://ssg-confluence.internal.sanger.ac.uk/display/PaMI/QC+short+read)
 
 > **Note**: Please refer to the external wiki for setup instructions, usage details, and troubleshooting information.

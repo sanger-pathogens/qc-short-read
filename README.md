@@ -18,9 +18,9 @@ Comprehensive documentation for this project is hosted on confluence. You can ac
 
 > **Note**: Please refer to the external wiki for setup instructions, usage details, and troubleshooting information.
 
-### If you plan to clone this repository
+# If you plan to clone this repository
 
-##The wiki information is written from the perspective of using the tool on the sanger systems.
+## The wiki information is written from the perspective of using the tool on the sanger systems.
 
 To instead use this tool from a cloned repository the executable changes from
 

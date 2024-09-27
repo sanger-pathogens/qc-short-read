@@ -14,7 +14,7 @@ Welcome to the **QC-short-read** repository.
 
 Comprehensive documentation for this project is hosted on the wiki. You can access it via the sidebar, or by clicking the link below:
 
-🔗 [Wiki](../../wiki)
+🔗 [Wiki](../../home)
 
 > **Note**: Please refer to the Usage details, and troubleshooting information.
 

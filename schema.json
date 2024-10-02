@@ -1,6 +1,12 @@
 {
-  "pipeline": "Strain Mapper",
+  "pipeline": "QC-short-read",
   "params": {
+    "MultiQC options": {
+      "multiqc_config": {
+        "default": "",
+        "help_text": "supply a config to override the multiQC base config"
+      }
+    },
     "Logging options": {
       "monochrome_logs": {
         "default": "false",

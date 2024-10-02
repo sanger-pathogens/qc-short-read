@@ -9,7 +9,7 @@ process FASTQC {
     container 'quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0'
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(read_1), path(read_2)
 
     output:
     tuple val(meta), path("*.html"), emit: html
@@ -22,6 +22,6 @@ process FASTQC {
     fastqc \
         -f fastq \
         --threads ${task.cpus} \
-        ${reads}
+        ${read_1} ${read_2}
     """
 }

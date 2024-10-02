@@ -34,9 +34,6 @@ workflow {
     COMBINE_IRODS
     | IRODS_EXTRACTOR
     | COMBINE_READS
-
-    COMBINE_READS.out.all_reads_ready_to_map_ch
-    | map { meta, read1, read2 -> tuple(meta, [read1, read2])} //made the input for FASTQC the same as kraken2bracken but can be whatever really if we want to change kraken2bracken
     | (FASTQC & KRAKEN2BRACKEN)
 
     MULTIQC(

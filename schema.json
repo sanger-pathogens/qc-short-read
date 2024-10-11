@@ -1,0 +1,20 @@
+{
+  "pipeline": "QC-short-read",
+  "params": {
+    "MultiQC options": {
+      "multiqc_config": {
+        "default": "",
+        "help_text": "Supply a config to override the multiQC base config"
+      }
+    },
+    "Logging options": {
+      "monochrome_logs": {
+        "default": "false",
+        "help_text": "Should logs appear in plain ASCII"
+      }
+    }
+  },
+  "overwrite_param": {
+    "none": {}
+  }
+}

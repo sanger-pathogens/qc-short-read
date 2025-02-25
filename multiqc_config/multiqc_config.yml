@@ -9,8 +9,7 @@ export_plots: true
 disable_version_detection: true
 
 #clean names
-fn_clean_exts:
-  ".prefilter"
+fn_clean_exts: ".prefilter"
 
 # Run only these modules
 run_modules:
@@ -32,7 +31,7 @@ module_order:
 module_settings:
   kraken:
     top_n: 5
-    title: "Read QC"  # Set custom title for Kraken2 reports
+    title: "Read QC" # Set custom title for Kraken2 reports
 
 # Ensure Kraken2 files are properly matched
 fn_glob:

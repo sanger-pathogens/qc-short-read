@@ -44,3 +44,12 @@ workflow {
            .map { it.delete() }
     }
 }
+
+workflow.onComplete {
+    NextflowTool.summary(workflow, params, log)
+
+    log.info """
+    To rerun from ${workflow.launchDir}:
+    bsub -q oversubscribed -R "select[mem>4000] rusage[mem=4000]" -M4000 -o ${workflow.runName}_repeat.o -e ${workflow.runName}_repeat.e -J ${workflow.runName}_repeat ${workflow.commandLine}
+    """
+}

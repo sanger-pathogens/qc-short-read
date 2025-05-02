@@ -5,7 +5,7 @@ process MULTIQC {
 
     container 'quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0'
 
-    publishDir "${params.outdir}/multiqc/", pattern: "*.html", mode: 'copy', overwrite: true
+    publishDir "${params.outdir}/multiqc/", mode: 'copy', overwrite: true
 
     input:
     path('*')

@@ -1,5 +1,5 @@
 include { FASTQC } from './modules/fastqc.nf'
-include { MULTIQC } from './modules/multiqc.nf'
+include { MULTIQC } from './assorted-sub-workflows/reporting/modules/multiqc.nf'
 
 //
 // SUBWORKFLOWS
@@ -32,10 +32,12 @@ workflow {
     MIXED_INPUT
     | (FASTQC & KRAKEN2BRACKEN)
 
-    MULTIQC(
-        FASTQC.out.zip.collect{it[1,2]},
-        KRAKEN2BRACKEN.out.kraken2_report_for_multiqc.collect{it[1]}
-    )
+    FASTQC.out.zip.collect{it[1,2]}
+    | mix(KRAKEN2BRACKEN.out.kraken2_report_for_multiqc.collect{it[1]})
+    | collect
+    | set { multiqc_input }
+
+    MULTIQC(multiqc_input)
 
     if (!params.skip_cleanup) {
         FASTQC.out.zip.join(MULTIQC.out.data, remainder=true)

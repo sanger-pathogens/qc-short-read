@@ -15,6 +15,17 @@
     }
   },
   "overwrite_param": {
-    "none": {}
+    "kraken2_db": {
+      "default": "/data/pam/software/kraken2/standard/k2_standard_20250402",
+      "help_text": "Path to the Kraken2 database"
+    },
+    "read_len": {
+      "default": 150,
+      "help_text": "Ideal length of reads in sample"
+    },
+    "classification_level": {
+      "default": "G",
+      "help_text": "Taxonomic rank to analyze for Bracken (Options: 'D', 'P', 'C', 'O', 'F', 'G', 'S')"
+    }
   }
 }

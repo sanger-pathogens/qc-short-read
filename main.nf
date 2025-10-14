@@ -5,7 +5,8 @@ include { MULTIQC } from './assorted-sub-workflows/reporting/modules/multiqc.nf'
 // SUBWORKFLOWS
 //
 include { MIXED_INPUT     } from './assorted-sub-workflows/mixed_input/mixed_input.nf'
-include { KRAKEN2BRACKEN  } from './assorted-sub-workflows/kraken2bracken/subworkflows/kraken2bracken.nf'
+include { TAXO_PROFILE    } from './assorted-sub-workflows/taxo_profile/taxo_profile.nf' 
+
 
 def logo = NextflowTool.logo(workflow, params.monochrome_logs)
 
@@ -29,13 +30,25 @@ workflow {
         exit 0
     }
 
-    MIXED_INPUT
-    | (FASTQC & KRAKEN2BRACKEN)
+    params.each { k, v -> println "${k} = ${v}" }
 
-    FASTQC.out.zip.collect{it[1,2]}
-    | mix(KRAKEN2BRACKEN.out.kraken2_report_for_multiqc.collect{it[1]})
-    | collect
-    | set { multiqc_input }
+
+    MIXED_INPUT
+    | (FASTQC & TAXO_PROFILE)
+
+    
+    if (params.bracken_profile) {
+        FASTQC.out.zip.collect{it[1,2]}
+        | mix(TAXO_PROFILE.out.ch_kraken2_style_bracken_reports.collect{it[1]})
+        | collect
+        | set { multiqc_input }
+    }
+    
+    else {
+        FASTQC.out.zip.collect { it[1,2] }
+        | collect
+        | set { multiqc_input }
+    }
 
     MULTIQC(multiqc_input)
 
@@ -46,6 +59,7 @@ workflow {
            .map { it.delete() }
     }
 }
+
 
 workflow.onComplete {
     NextflowTool.summary(workflow, params, log)

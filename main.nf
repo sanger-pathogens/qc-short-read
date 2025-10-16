@@ -30,9 +30,6 @@ workflow {
         exit 0
     }
 
-    params.each { k, v -> println "${k} = ${v}" }
-
-
     MIXED_INPUT
     | (FASTQC & TAXO_PROFILE)
 

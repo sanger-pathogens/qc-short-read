@@ -1,11 +1,10 @@
-include { FASTQC } from './modules/fastqc.nf'
 include { MULTIQC } from './assorted-sub-workflows/reporting/modules/multiqc.nf'
 
 //
 // SUBWORKFLOWS
 //
 include { MIXED_INPUT     } from './assorted-sub-workflows/mixed_input/mixed_input.nf'
-include { TAXO_PROFILE    } from './assorted-sub-workflows/taxo_profile/taxo_profile.nf' 
+include { QC } from './assorted-sub-workflows/qc/qc.nf'
 
 
 def logo = NextflowTool.logo(workflow, params.monochrome_logs)
@@ -19,6 +18,8 @@ def printHelp() {
     NextflowTool.help_message("${workflow.ProjectDir}/schema.json", 
                                ["${workflow.ProjectDir}/assorted-sub-workflows/mixed_input/schema.json",
                                 "${workflow.ProjectDir}/assorted-sub-workflows/irods_extractor/schema.json",
+                                "${workflow.ProjectDir}/assorted-sub-workflows/qc/schema.json",
+                                "${workflow.ProjectDir}/assorted-sub-workflows/taxo_profile/schema.json",
                                 "${workflow.ProjectDir}/assorted-sub-workflows/kraken2bracken/schema.json"],
     params.monochrome_logs, log)
 }
@@ -31,30 +32,16 @@ workflow {
     }
 
     MIXED_INPUT
-    | (FASTQC & TAXO_PROFILE)
-
-    
-    if (params.bracken_profile) {
-        FASTQC.out.zip.collect{it[1,2]}
-        | mix(TAXO_PROFILE.out.ch_kraken2_style_bracken_reports.collect{it[1]})
-        | collect
-        | set { multiqc_input }
-    }
-    
-    else {
-        FASTQC.out.zip.collect { it[1,2] }
-        | collect
-        | set { multiqc_input }
-    }
-
-    MULTIQC(multiqc_input)
+    | QC
+    | MULTIQC
 
     if (!params.skip_cleanup) {
-        FASTQC.out.zip.join(MULTIQC.out.data, remainder=true)
+        QC.out.multiqc_input.join(MULTIQC.out.data, remainder=true)
            .flatten()
            .filter(Path)
            .map { it.delete() }
     }
+
 }
 
 

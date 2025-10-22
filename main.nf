@@ -30,9 +30,7 @@ workflow {
         printHelp()
         exit 0
     }
-
-    params.each { k , v  ->  println "${k} = ${v}"}
-
+    
     MIXED_INPUT
     | QC
     | MULTIQC

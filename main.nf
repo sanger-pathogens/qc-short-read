@@ -1,10 +1,10 @@
-include { MULTIQC } from './assorted-sub-workflows/reporting/modules/multiqc.nf'
+include { MULTIQC         } from './assorted-sub-workflows/reporting/modules/multiqc.nf'
 
 //
 // SUBWORKFLOWS
 //
 include { MIXED_INPUT     } from './assorted-sub-workflows/mixed_input/mixed_input.nf'
-include { QC } from './assorted-sub-workflows/qc/qc.nf'
+include { QC              } from './assorted-sub-workflows/qc/qc.nf'
 
 
 def logo = NextflowTool.logo(workflow, params.monochrome_logs)
@@ -30,6 +30,8 @@ workflow {
         printHelp()
         exit 0
     }
+
+    params.each { k , v  ->  println "${k} = ${v}"}
 
     MIXED_INPUT
     | QC

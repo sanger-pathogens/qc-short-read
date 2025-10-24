@@ -16,8 +16,8 @@
   },
   "overwrite_param": {
     "kraken2_db": {
-        "default": "/data/pam/software/kraken2/standard/k2_standard_20250402",
-        "help_text": "Pathway to Kraken2 database."
+      "default": "/data/pam/software/kraken2/standard/k2_standard_20250402",
+      "help_text": "Pathway to Kraken2 database."
     },
     "bracken_classification_level": {
       "default": "S",

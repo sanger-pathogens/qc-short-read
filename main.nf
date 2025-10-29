@@ -16,11 +16,12 @@ NextflowTool.commandLineParams(workflow.commandLine, log, params.monochrome_logs
 
 def printHelp() {
     NextflowTool.help_message("${workflow.ProjectDir}/schema.json", 
-                               ["${workflow.ProjectDir}/assorted-sub-workflows/mixed_input/schema.json",
-                                "${workflow.ProjectDir}/assorted-sub-workflows/irods_extractor/schema.json",
-                                "${workflow.ProjectDir}/assorted-sub-workflows/qc/schema.json",
+                               ["${workflow.ProjectDir}/assorted-sub-workflows/irods_extractor/schema.json",
+                                "${workflow.ProjectDir}/assorted-sub-workflows/mixed_input/schema.json",
+                                "${workflow.ProjectDir}/assorted-sub-workflows/kraken2bracken/schema.json",
                                 "${workflow.ProjectDir}/assorted-sub-workflows/taxo_profile/schema.json",
-                                "${workflow.ProjectDir}/assorted-sub-workflows/kraken2bracken/schema.json"],
+                                "${workflow.ProjectDir}/assorted-sub-workflows/qc/schema.json"],
+
     params.monochrome_logs, log)
 }
 

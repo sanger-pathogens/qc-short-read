@@ -2,8 +2,9 @@ include { MULTIQC         } from './assorted-sub-workflows/reporting/modules/mul
 
 //
 // SUBWORKFLOWS
-//
+
 include { MIXED_INPUT     } from './assorted-sub-workflows/mixed_input/mixed_input.nf'
+include { PREPROCESSING   } from './assorted-sub-workflows/qc/preprocessing.nf'
 include { QC              } from './assorted-sub-workflows/qc/qc.nf'
 
 
@@ -33,6 +34,7 @@ workflow {
     }
     
     MIXED_INPUT
+    | PREPROCESSING
     | QC
     | MULTIQC
 

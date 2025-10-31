@@ -33,8 +33,17 @@ workflow {
         exit 0
     }
     
-    MIXED_INPUT
-    | PREPROCESSING
+    MIXED_INPUT()
+
+    if (!params.skip_preprocessing) {
+        PREPROCESSING(MIXED_INPUT.out)
+        | set { reads_ch }
+    }
+    else {
+        reads_ch = MIXED_INPUT.out
+    }
+
+    reads_ch
     | QC
     | MULTIQC
 
@@ -44,7 +53,8 @@ workflow {
            .filter(Path)
            .map { it.delete() }
     }
-
+    QC.out.multiqc_input.view()
+    MULTIQC.out.data.view()
 }
 
 

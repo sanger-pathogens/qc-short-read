@@ -12,14 +12,14 @@
         "default": "false",
         "help_text": "Should logs appear in plain ASCII"
       }
-    }, 
+    },
     "Preprocessing options": {
       "skip_preprocessing": {
         "default": "false",
         "help_text": "Skip the preprocessing step and use the input reads directly for QC"
       }
-    }, 
-    "Other options" {
+    },
+    "Other options": {
       "skip_cleanup": {
         "default": "false",
         "help_text": "Skip cleanup of intermediate MULTIQC files"

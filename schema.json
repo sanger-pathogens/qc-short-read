@@ -12,13 +12,6 @@
         "default": "false",
         "help_text": "Should logs appear in plain ASCII"
       }
-    },
-    "Other options": {
-      "skip_preprocessing": {
-        "default": "false",
-        "help_text": "Skip preprocessing fastas using Trimmomatic, TRF and Bmtagger."
-      }
-      ""
     }
   },
   "overwrite_param": {

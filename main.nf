@@ -1,11 +1,12 @@
-include { FASTQC } from './modules/fastqc.nf'
-include { MULTIQC } from './assorted-sub-workflows/reporting/modules/multiqc.nf'
+include { MULTIQC         } from './assorted-sub-workflows/reporting/modules/multiqc.nf'
 
 //
 // SUBWORKFLOWS
-//
+
 include { MIXED_INPUT     } from './assorted-sub-workflows/mixed_input/mixed_input.nf'
-include { KRAKEN2BRACKEN  } from './assorted-sub-workflows/kraken2bracken/subworkflows/kraken2bracken.nf'
+include { PREPROCESSING  } from './assorted-sub-workflows/qc/preprocessing.nf'
+include { QC              } from './assorted-sub-workflows/qc/qc.nf'
+
 
 def logo = NextflowTool.logo(workflow, params.monochrome_logs)
 
@@ -16,9 +17,12 @@ NextflowTool.commandLineParams(workflow.commandLine, log, params.monochrome_logs
 
 def printHelp() {
     NextflowTool.help_message("${workflow.ProjectDir}/schema.json", 
-                               ["${workflow.ProjectDir}/assorted-sub-workflows/mixed_input/schema.json",
-                                "${workflow.ProjectDir}/assorted-sub-workflows/irods_extractor/schema.json",
-                                "${workflow.ProjectDir}/assorted-sub-workflows/kraken2bracken/schema.json"],
+                               ["${workflow.ProjectDir}/assorted-sub-workflows/irods_extractor/schema.json",
+                                "${workflow.ProjectDir}/assorted-sub-workflows/mixed_input/schema.json",
+                                "${workflow.ProjectDir}/assorted-sub-workflows/kraken2bracken/schema.json",
+                                "${workflow.ProjectDir}/assorted-sub-workflows/taxo_profile/schema.json",
+                                "${workflow.ProjectDir}/assorted-sub-workflows/qc/schema.json"],
+
     params.monochrome_logs, log)
 }
 
@@ -28,24 +32,21 @@ workflow {
         printHelp()
         exit 0
     }
-
+    
     MIXED_INPUT
-    | (FASTQC & KRAKEN2BRACKEN)
-
-    FASTQC.out.zip.collect{it[1,2]}
-    | mix(KRAKEN2BRACKEN.out.kraken2_report_for_multiqc.collect{it[1]})
-    | collect
-    | set { multiqc_input }
-
-    MULTIQC(multiqc_input)
+    | PREPROCESSING
+    | QC
+    | MULTIQC
 
     if (!params.skip_cleanup) {
-        FASTQC.out.zip.join(MULTIQC.out.data, remainder=true)
+        QC.out.multiqc_input.join(MULTIQC.out.data, remainder=true)
            .flatten()
            .filter(Path)
            .map { it.delete() }
     }
+
 }
+
 
 workflow.onComplete {
     NextflowTool.summary(workflow, params, log)

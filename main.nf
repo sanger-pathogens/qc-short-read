@@ -53,8 +53,7 @@ workflow {
            .filter(Path)
            .map { it.delete() }
     }
-    QC.out.multiqc_input.view()
-    MULTIQC.out.data.view()
+
 }
 
 

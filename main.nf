@@ -36,7 +36,7 @@ workflow {
     MIXED_INPUT
     | QC
 
-    MULTIQC(QC.multiqc_input)
+    MULTIQC(QC.out.multiqc_input)
 
     if (!params.skip_cleanup) {
         QC.out.multiqc_input.join(MULTIQC.out.data, remainder=true)

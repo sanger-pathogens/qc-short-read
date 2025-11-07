@@ -4,7 +4,7 @@ include { MULTIQC         } from './assorted-sub-workflows/reporting/modules/mul
 // SUBWORKFLOWS
 
 include { MIXED_INPUT     } from './assorted-sub-workflows/mixed_input/mixed_input.nf'
-include { PREPROCESSING  } from './assorted-sub-workflows/qc/preprocessing.nf'
+include { PREPROCESSING  } from './assorted-sub-workflows/preprocessing/preprocessing.nf'
 include { QC              } from './assorted-sub-workflows/qc/qc.nf'
 
 
@@ -21,7 +21,8 @@ def printHelp() {
                                 "${workflow.ProjectDir}/assorted-sub-workflows/mixed_input/schema.json",
                                 "${workflow.ProjectDir}/assorted-sub-workflows/kraken2bracken/schema.json",
                                 "${workflow.ProjectDir}/assorted-sub-workflows/taxo_profile/schema.json",
-                                "${workflow.ProjectDir}/assorted-sub-workflows/qc/schema.json"],
+                                "${workflow.ProjectDir}/assorted-sub-workflows/qc/schema.json",
+                                "${workflow.ProjectDir}/assorted-sub-workflows/preprocessing/schema.json"],
 
     params.monochrome_logs, log)
 }

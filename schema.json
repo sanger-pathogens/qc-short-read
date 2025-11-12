@@ -12,6 +12,12 @@
         "default": "false",
         "help_text": "Should logs appear in plain ASCII"
       }
+    },
+    "Other options": {
+      "skip_cleanup": {
+        "default": "false",
+        "help_text": "Skip cleanup of intermediate MULTIQC files"
+      }
     }
   },
   "overwrite_param": {

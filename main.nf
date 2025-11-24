@@ -4,6 +4,7 @@ include { MULTIQC         } from './assorted-sub-workflows/reporting/modules/mul
 // SUBWORKFLOWS
 
 include { MIXED_INPUT     } from './assorted-sub-workflows/mixed_input/mixed_input.nf'
+include { PREPROCESSING   } from './assorted-sub-workflows/preprocessing/preprocessing.nf'
 include { QC              } from './assorted-sub-workflows/qc/qc.nf'
 
 
@@ -33,8 +34,15 @@ workflow {
         exit 0
     }
     
-    MIXED_INPUT
-    | QC
+    raw_reads_ch = MIXED_INPUT()
+
+    if (!params.skip_preprocessing) {
+        reads_ch = PREPROCESSING(raw_reads_ch)
+    } else {
+        reads_ch = raw_reads_ch
+    }
+    
+    QC(reads_ch)
 
     MULTIQC(QC.out.multiqc_input)
 

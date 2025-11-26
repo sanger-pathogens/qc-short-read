@@ -7,6 +7,12 @@ include { MIXED_INPUT     } from './assorted-sub-workflows/mixed_input/mixed_inp
 include { PREPROCESSING   } from './assorted-sub-workflows/preprocessing/preprocessing.nf'
 include { QC              } from './assorted-sub-workflows/qc/qc.nf'
 
+/*
+Helper Scripts
+*/
+
+include { validate_parameters } from './modules/validate.nf'
+
 
 def logo = NextflowTool.logo(workflow, params.monochrome_logs)
 
@@ -33,11 +39,13 @@ workflow {
         printHelp()
         exit 0
     }
-    
+
+    validate_parameters()
+
     raw_reads_ch = MIXED_INPUT()
 
-    if (!params.skip_preprocessing) {
-        reads_ch = PREPROCESSING(raw_reads_ch).out.preprocessed_reads_ch
+    if (!params.skip_preprocessing || params.preprocessing) {
+        reads_ch = PREPROCESSING(raw_reads_ch).preprocessed_reads_ch
     } else {
         reads_ch = raw_reads_ch
     }

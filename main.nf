@@ -4,7 +4,14 @@ include { MULTIQC         } from './assorted-sub-workflows/reporting/modules/mul
 // SUBWORKFLOWS
 
 include { MIXED_INPUT     } from './assorted-sub-workflows/mixed_input/mixed_input.nf'
+include { PREPROCESSING   } from './assorted-sub-workflows/preprocessing/preprocessing.nf'
 include { QC              } from './assorted-sub-workflows/qc/qc.nf'
+
+/*
+Helper Scripts
+*/
+
+include { validate_parameters } from './modules/validate.nf'
 
 
 def logo = NextflowTool.logo(workflow, params.monochrome_logs)
@@ -32,9 +39,19 @@ workflow {
         printHelp()
         exit 0
     }
+
+    validate_parameters()
+
+    raw_reads_ch = MIXED_INPUT()
+
+    if (!params.skip_preprocessing || params.preprocessing) {
+        PREPROCESSING(raw_reads_ch)
+        reads_ch = PREPROCESSING.out.preprocessed_reads_ch
+    } else {
+        reads_ch = raw_reads_ch
+    }
     
-    MIXED_INPUT
-    | QC
+    QC(reads_ch)
 
     MULTIQC(QC.out.multiqc_input)
 

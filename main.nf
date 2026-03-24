@@ -44,7 +44,7 @@ workflow {
 
     raw_reads_ch = MIXED_INPUT()
 
-    if (!params.skip_preprocessing || params.preprocessing) {
+    if (params.preprocessing) {
         PREPROCESSING(raw_reads_ch)
         reads_ch = PREPROCESSING.out.preprocessed_reads_ch
     } else {

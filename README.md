@@ -85,6 +85,8 @@ sampleA,/path/to/sampleA_1.fastq.gz,/path/to/sampleA_2.fastq.gz
 sampleB,/path/to/sampleB_1.fastq.gz,/path/to/sampleB_2.fastq.gz
 ```
 
+**Sanger users:** the [manifest_generator](https://gitlab.internal.sanger.ac.uk/sanger-pathogens/pipelines/manifest_generator/) tool can generate a compatible `ID,R1,R2` manifest from a directory of FASTQ files or from iRODS.
+
 **2. iRODS query** — specify `--studyid`, `--runid`, `--laneid`, and/or `--plexid` to stream reads directly from the Sanger iRODS data management system. Requires `iinit` authentication.
 
 **3. ENA download** — specify `--enastudy` or `--enarun` to download reads directly from the ENA public archive.

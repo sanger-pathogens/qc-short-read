@@ -113,36 +113,36 @@ results/
 
 **MultiQC options**
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `--multiqc_config` | `path` | `""` | Supply a custom MultiQC config to override the default. |
+| Option             | Type   | Default | Description                                             |
+| ------------------ | ------ | ------- | ------------------------------------------------------- |
+| `--multiqc_config` | `path` | `""`    | Supply a custom MultiQC config to override the default. |
 
 ---
 
 **Logging options**
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
+| Option              | Type      | Default | Description                                            |
+| ------------------- | --------- | ------- | ------------------------------------------------------ |
 | `--monochrome_logs` | `boolean` | `false` | Output logs in plain ASCII (disable coloured logging). |
 
 ---
 
 **Other options**
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `--skip_cleanup` | `boolean` | `false` | Skip cleanup of intermediate MultiQC files. |
-| `--preprocessing` | `boolean` | `true` | Run the preprocessing (adapter trimming) step before QC. |
+| Option            | Type      | Default | Description                                              |
+| ----------------- | --------- | ------- | -------------------------------------------------------- |
+| `--skip_cleanup`  | `boolean` | `false` | Skip cleanup of intermediate MultiQC files.              |
+| `--preprocessing` | `boolean` | `true`  | Run the preprocessing (adapter trimming) step before QC. |
 
 ---
 
 **Kraken2/Bracken options**
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `--kraken2_db` | `path` | `/data/pam/software/kraken2/standard/k2_standard_20250402` | Path to the Kraken2 database. |
-| `--bracken_classification_level` | `string` | `S` | Taxonomic rank for Bracken re-estimation. Options: `D`, `P`, `C`, `O`, `F`, `G`, `S`. |
-| `--read_len` | `integer` | `150` | Expected read length for Bracken (used to select the k-mer length during re-estimation). |
+| Option                           | Type      | Default                                                    | Description                                                                              |
+| -------------------------------- | --------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `--kraken2_db`                   | `path`    | `/data/pam/software/kraken2/standard/k2_standard_20250402` | Path to the Kraken2 database.                                                            |
+| `--bracken_classification_level` | `string`  | `S`                                                        | Taxonomic rank for Bracken re-estimation. Options: `D`, `P`, `C`, `O`, `F`, `G`, `S`.    |
+| `--read_len`                     | `integer` | `150`                                                      | Expected read length for Bracken (used to select the k-mer length during re-estimation). |
 
 ### Advanced usage
 
@@ -162,12 +162,12 @@ All dependencies are containerised. The Kraken2 database must be available local
 
 Key software used by the pipeline sub-workflows:
 
-| Software | Version | Image |
-| --- | --- | --- |
-| FastQC | — | `quay.io/biocontainers/fastqc:*` |
-| Kraken2 | — | `quay.io/biocontainers/kraken2:*` |
-| Bracken | — | `quay.io/biocontainers/bracken:*` |
-| MultiQC | — | `quay.io/biocontainers/multiqc:*` |
+| Software | Version | Image                             |
+| -------- | ------- | --------------------------------- |
+| FastQC   | —       | `quay.io/biocontainers/fastqc:*`  |
+| Kraken2  | —       | `quay.io/biocontainers/kraken2:*` |
+| Bracken  | —       | `quay.io/biocontainers/bracken:*` |
+| MultiQC  | —       | `quay.io/biocontainers/multiqc:*` |
 
 See the `assorted-sub-workflows/qc/modules/` and `assorted-sub-workflows/kraken2bracken/modules/` directories for pinned container versions.
 

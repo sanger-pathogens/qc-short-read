@@ -73,7 +73,7 @@ bsub -o output.o -e error.e -q oversubscribed -R "select[mem>4000] rusage[mem=40
 
 ### Input
 
-The pipeline accepts three input modes via the `mixed_input` sub-workflow:
+The pipeline supports four input modes via the `mixed_input` sub-workflow — these can be combined in a single run:
 
 **1. Local manifest CSV (`--manifest`)**
 
@@ -87,11 +87,13 @@ sampleB,/path/to/sampleB_1.fastq.gz,/path/to/sampleB_2.fastq.gz
 
 **Sanger users:** the [manifest_generator](https://gitlab.internal.sanger.ac.uk/sanger-pathogens/pipelines/manifest_generator/) tool can generate a compatible `ID,R1,R2` manifest from a directory of FASTQ files or from iRODS.
 
-**2. iRODS query** — specify `--studyid`, `--runid`, `--laneid`, and/or `--plexid` to stream reads directly from the Sanger iRODS data management system. Requires `iinit` authentication.
+**2. iRODS** (Sanger internal) — specify `--studyid`, `--runid`, `--laneid`, and/or `--plexid` on the command line; at least `--studyid` or `--runid` is required. A batch CSV of multiple iRODS searches can be supplied via `--manifest_of_lanes`. Requires an active iRODS session (`iinit`).
 
-**3. ENA download** — specify `--enastudy` or `--enarun` to download reads directly from the ENA public archive.
+**3. ENA download** — supply a file of ENA accession IDs via `--manifest_ena`. Set `--accession_type` to `run` (default), `sample`, or `study`.
 
-See `qc-short-read --help` for the full list of `mixed_input` parameters.
+**4. Directory scan** — provide a path to a directory of FASTQ files via `--manifest_from_dir`. Use `--fastq_validation` (`strict`/`relaxed`, default: `strict`) and `--max_depth` (default: `0`) to control discovery.
+
+See `qc-short-read --help` for the full parameter list.
 
 ### Output
 

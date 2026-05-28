@@ -8,7 +8,7 @@ QC-short-read is a Nextflow DSL2 pipeline for quality control and taxonomic prof
 
 The pipeline performs the following steps:
 
-1. **Input** — reads are loaded from one of three sources (local manifest CSV, iRODS query, or ENA accession) via the `mixed_input` sub-workflow.
+1. **Input** — reads are loaded (see [Input](#input)).
 2. **Preprocessing** — optional adapter trimming and read length filtering (default: enabled).
 3. **QC** — FastQC is run on each sample; Kraken2 performs taxonomic classification and Bracken re-estimates species-level abundances.
 4. **Reporting** — MultiQC aggregates FastQC and Kraken2 results into a single HTML report.

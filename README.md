@@ -1,5 +1,9 @@
 # QC-short-read
 
+[![Singularity](https://img.shields.io/badge/Singularity-blue.svg)](https://singularity.lbl.gov/)
+[![Nextflow](https://img.shields.io/badge/Nextflow-brightgreen.svg)](https://www.nextflow.io/)
+[![Docker](https://img.shields.io/badge/Docker-blue.svg)](https://www.docker.com/)
+
 [[_TOC_]]
 
 ## Pipeline overview
@@ -12,10 +16,6 @@ The pipeline performs the following steps:
 2. **Preprocessing** — optional adapter trimming and read length filtering (default: enabled).
 3. **QC** — FastQC is run on each sample; Kraken2 performs taxonomic classification and Bracken re-estimates species-level abundances.
 4. **Reporting** — MultiQC aggregates FastQC and Kraken2 results into a single HTML report.
-
-[![Singularity](https://img.shields.io/badge/Singularity-blue.svg)](https://singularity.lbl.gov/)
-[![Nextflow](https://img.shields.io/badge/Nextflow-brightgreen.svg)](https://www.nextflow.io/)
-[![Docker](https://img.shields.io/badge/Docker-blue.svg)](https://www.docker.com/)
 
 ## Usage
 

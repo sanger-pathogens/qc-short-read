@@ -168,12 +168,12 @@ All dependencies are containerised. The Kraken2 database must be available local
 
 Key software used by the pipeline sub-workflows:
 
-| Software | Version | Image                             |
-| -------- | ------- | --------------------------------- |
-| FastQC   | —       | `quay.io/biocontainers/fastqc:*`  |
-| Kraken2  | —       | `quay.io/biocontainers/kraken2:*` |
-| Bracken  | —       | `quay.io/biocontainers/bracken:*` |
-| MultiQC  | —       | `quay.io/biocontainers/multiqc:*` |
+| Software | Version | Image                                                   |
+| -------- | ------- | ------------------------------------------------------- |
+| FastQC   | 0.12.1  | `quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0`       |
+| Kraken2  | 2.1.3   | `quay.io/biocontainers/kraken2:2.1.3--pl5321hdcf5f25_0` |
+| Bracken  | 2.8     | `quay.io/biocontainers/bracken:2.8--py310h0dbaff4_1`    |
+| MultiQC  | 1.19    | `quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0`      |
 
 See the `assorted-sub-workflows/qc/modules/` and `assorted-sub-workflows/kraken2bracken/modules/` directories for pinned container versions.
 

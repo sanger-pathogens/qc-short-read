@@ -26,7 +26,7 @@ The pipeline performs the following steps:
 1. Clone this repository with its submodules:
 
    ```bash
-   git clone --recurse-submodules https://gitlab.internal.sanger.ac.uk/sanger-pathogens/pipelines/qc-short-read.git
+   git clone --recurse-submodules <repo-url>
    cd qc-short-read
    ```
 

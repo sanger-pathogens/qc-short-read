@@ -103,16 +103,36 @@ Results are written to `--outdir` (default: `./results`):
 
 ```
 results/
-  fastqc/
-    <sample_ID>_fastqc.html        # Per-sample FastQC HTML report
-    <sample_ID>_fastqc.zip
-  kraken2/
-    <sample_ID>.kraken2.report     # Kraken2 classification report
-  bracken/
-    <sample_ID>.bracken            # Bracken species-level abundance estimates
+  <sample_ID>/
+    kraken2/
+      <sample_ID>_kraken_sample_report.tsv      # Kraken2 per-sample classification report
+      <sample_ID>_kraken_report.tsv.gz          # Full Kraken2 output (if --publish_full_kraken_report)
+    bracken/
+      <sample_ID>.bracken                       # Bracken species-level abundance estimates
+      <sample_ID>_kraken_sample_report_bracken_*.tsv  # Kraken-style Bracken report
+      <sample_ID>_report_bracken_species.mpa.txt      # MPA-format Bracken abundance report
+    sylph/
+      <sample_ID>_sylph_profile.tsv             # Sylph taxonomic profile (if --sylph_profile)
+      <sample_ID>.sylphmpa                      # Sylph MPA-format report (if --sylph_profile)
+      <sample_ID>.paired.sylsp                  # Sylph sketch file (if --save_sylph_sketches)
+    fastqc/
+      <sample_ID>_1_fastqc.zip                  # FastQC zip archives (if --save_fastqc)
+      <sample_ID>_2_fastqc.zip
+    preprocessing/                              # Preprocessed FASTQ files (if --publish_clean_reads)
+      <sample_ID>_preprocessed_1.fastq.gz
+      <sample_ID>_preprocessed_2.fastq.gz
+  abundance_summary/
+    bracken_summary_report.tsv                  # Combined Bracken abundance across all samples
+  qc_pass_fail_summary/
+    sample_pass_fail_qc_summary.tsv             # Per-sample QC pass/fail status
+  preprocessing_summary_stats/
+    *_statistics.csv                            # Preprocessing read count statistics
   multiqc/
-    multiqc_report.html            # Aggregated MultiQC report
-    multiqc_data/
+    multiqc_report.html                         # Aggregated MultiQC HTML report
+  host_reads/                                   # Host reads extracted during preprocessing (if --publish_host_reads)
+    *_host*.fastq.gz
+  manifest/
+    manifest.csv                                # Auto-generated manifest (only when using --manifest_from_dir)
 ```
 
 ### Parameters

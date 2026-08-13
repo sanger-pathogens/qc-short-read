@@ -44,3 +44,5 @@ module_settings:
 # Ensure Kraken2 files are properly matched
 fn_glob:
   kraken: "*.tsv"
+
+  sylphtax: "*.sylphmpa"

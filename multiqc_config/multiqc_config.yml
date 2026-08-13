@@ -37,7 +37,7 @@ module_settings:
   kraken:
     top_n: 5
     title: "Read QC" # Set custom title for Kraken2 reports
-  
+
   sylphtax:
     top_n: 10
 

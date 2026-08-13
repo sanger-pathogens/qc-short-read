@@ -15,6 +15,7 @@ fn_clean_exts: ".prefilter"
 run_modules:
   - fastqc
   - kraken
+  - sylphtax
 
 module_order:
   - fastqc:
@@ -27,11 +28,18 @@ module_order:
       name: "Kraken2"
       info: "This section of the report shows Kraken 2 classification results."
 
+  - sylphtax:
+      name: "Sylphtax"
+      info: "This section of the report shows sylphtax classification results."
+
 # Kraken2 module configuration
 module_settings:
   kraken:
     top_n: 5
     title: "Read QC" # Set custom title for Kraken2 reports
+  
+  sylphtax:
+    top_n: 10
 
 # Ensure Kraken2 files are properly matched
 fn_glob:

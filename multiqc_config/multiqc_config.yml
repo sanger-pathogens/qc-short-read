@@ -18,13 +18,13 @@ run_modules:
 
 module_order:
   - fastqc:
-      name: "FastQC (raw reads)"
+      name: "FastQC"
       info: "This section of the report shows FastQC results."
       path_filters:
         - "*.zip"
 
   - kraken:
-      name: "Kraken 2"
+      name: "Kraken2"
       info: "This section of the report shows Kraken 2 classification results."
 
 # Kraken2 module configuration

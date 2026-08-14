@@ -53,7 +53,10 @@ workflow {
     
     QC(reads_ch)
 
-    MULTIQC(QC.out.multiqc_input)
+    MULTIQC(
+        QC.out.multiqc_input,
+        params.multiqc_config ? file(params.multiqc_config) : []
+    )
 
     if (!params.skip_cleanup) {
         QC.out.multiqc_input.join(MULTIQC.out.data, remainder=true)

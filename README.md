@@ -148,6 +148,8 @@ Please not that the `.syldb` file must be supplied and some are contained with s
 
 The default k-mer length for sylph is `31`. Sylph supports `k = 21` or `k = 31`. The pipline allows you to pass a parameter to sylph to estimate the percentage of unclassified reads (`-u flag`). To turn this estimation of unclassified reads off please use --sylph_estimate_unknown `false`. Sylph profiling is ran with `--read-seq-ID 99.5` which is used to specify the percentage identity of your sequences (i.e. 100 - error percent). By default, the pipeline sets this to 99.5 (recommended by Sylph for Illumina reads). If you wish to specify your own sequence identity, please use the parameter `--sylph_read_seq_id`. Sylph can also provide its own estimate for percentage identity; to enable this, please use `--sylph_read_seq_id false`.
 
+#### Pre-processing and QC
+Detailed pre-processing options can be found [here](#parameters) or by accessing the help menu in the pipeline by running `nextflow run qc-short-read/main.nf -h` or `qc-short-read -h` as a Sanger user after [loading the module](#using-on-the-sanger-farm-hpc). To turn the pre-processing subworkflow on/off use the `--preprocessing` options (default: `true`). 
 
 ### Output
 
@@ -289,6 +291,7 @@ taxo profile Subworkflow Options
 The Kraken2 database defaults to a Sanger-internal path. To run outside of Sanger, download a Kraken2 database (e.g. the [standard database](https://benlangmead.github.io/aws-indexes/k2)) and supply its path via `--kraken2_db`.
 
 #### Sylph databases
+Pre-sketched sylph databases are available on the sylph [website](https://sylph-docs.github.io/pre%E2%80%90built-databases/). Should you require a custom database you can follow their documentartion [here](https://sylph-docs.github.io/sylph-cookbook/#database-sketching-options). 
 
 #### Trimmomatic
 

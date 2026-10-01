@@ -186,13 +186,6 @@ results/
 
 ### Parameters
 
-**MultiQC options**
-
-| Option             | Type   | Default | Description                                             |
-| ------------------ | ------ | ------- | ------------------------------------------------------- |
-| `--multiqc_config` | `path` | `""`    | Supply a custom MultiQC config to override the default. |
-
----
 
 **Logging options**
 
@@ -202,12 +195,24 @@ results/
 
 ---
 
-**Other options**
+**General pre-processing options**
 
-| Option            | Type      | Default | Description                                              |
-| ----------------- | --------- | ------- | -------------------------------------------------------- |
-| `--skip_cleanup`  | `boolean` | `false` | Skip cleanup of intermediate MultiQC files.              |
-| `--preprocessing` | `boolean` | `true`  | Run the preprocessing (adapter trimming) step before QC. |
+| Option                        | Type      | Default | Description                                                                                                                  |
+| ----------------------------- | --------- | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `--skip_cleanup`              | `boolean` | `false` | Skip cleanup of intermediate MultiQC files.                                                                                  |
+| `--preprocessing`             | `boolean` | `true`  | Run the preprocessing (adapter trimming) step before QC.                                                                     |
+| `--publish_clean_reads`       | `boolean` | `true`  | Save the pre-processed reads (gzip-compressed) in the `preprocessing/` output folder.                                        |
+| `--publish_trimmomatic_reads` | `boolean` | `false` | Publish intermediate reads from the Trimmomatic process during pre-processing. Read sets will be uncompressed FASTQ files. |
+
+---
+
+**FastQC options**
+
+| Option                      | Type      | Default                                                          | Description                                                                                                                                                                       |
+| --------------------------- | --------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--save_fastqc`             | `boolean` | `false`                                                          | Publish FastQC output.                                                                                                                                                            |
+| `--fastqc_pass_criteria`    | `path`    | `assorted-sub-workflows/qc/assets/fastqc_pass_criteria.json`    | JSON file defining an array of items in the FastQC `summary.txt` that must have the value `PASS` for the sample to be considered a pass.                                          |
+| `--fastqc_no_fail_criteria` | `path`    | `assorted-sub-workflows/qc/assets/fastqc_no_fail_criteria.json` | JSON file defining an array of items in the FastQC `summary.txt` that must NOT have the value `FAIL` for the sample to be considered a pass (i.e. they could have `WARN`).        |
 
 ---
 
@@ -222,15 +227,40 @@ results/
 | `--trim_min_length`     | `integer` | `70`                                                                                                                                                      | Minimum read length retained following trimming.                                         |
 | `--trimmomatic_options` | `string`  | `ILLUMINACLIP:${params.adapter_fasta}:2:10:7:1 CROP:151 SLIDINGWINDOW:${params.trim_window_size}:${params.trim_baseq} MINLEN:${params.trim_min_length}` | Trimmomatic command line options.                                                        |
 
+---
+
+**Bmtagger options**
+
+| Option                | Type      | Default                       | Description                                                                         |
+| --------------------- | --------- | ----------------------------- | ----------------------------------------------------------------------------------- |
+| `--run_bmtagger`      | `boolean` | `false`                       | Run bmtagger for host read removal.                                                 |
+| `--publish_host_data` | `boolean` | `false`                       | Publish the reads determined to originate from the host organism.                   |
+| `--bmtagger_db`       | `path`    | `/data/pam/software/bmtagger` | **Default related to Sanger only** Path to directory containing BMTagger database. |
+| `--bmtagger_host`     | `string`  | `T2T-CHM13v2.0`               | Reference genome version used for host read filtering.                              |
+
+**MultiQC options**
+
+| Option             | Type   | Default | Description                                             |
+| ------------------ | ------ | ------- | ------------------------------------------------------- |
+| `--multiqc_config` | `path` | `""`    | Supply a custom MultiQC config to override the default. |
+
 --- 
 
 **Kraken2/Bracken options**
 
-| Option                           | Type      | Default                                                    | Description                                                                                                                                |
-| -------------------------------- | --------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `--kraken2_db`                   | `path`    | `/data/pam/software/kraken2/standard/k2_standard_20250402` | Path to the Kraken2 database. Users external to Sanger will have to download an approrriate [Kraken2 database](#running-outside-of-sanger) |
-| `--bracken_classification_level` | `string`  | `S`                                                        | Taxonomic rank for Bracken re-estimation. Options: `D`, `P`, `C`, `O`, `F`, `G`, `S`.                                                      |
-| `--read_len`                     | `integer` | `150`                                                      | Expected read length for Bracken (used to select the k-mer length during re-estimation).                                                   |
+| Option                           | Type      | Default                                                    | Description                                                                                                                                                                                |
+| -------------------------------- | --------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--kraken2_db`                   | `path`    | `/data/pam/software/kraken2/standard/k2_standard_20250402` | Path to the Kraken2 database. Users external to Sanger will have to download an appropriate [Kraken2 database](#running-outside-of-sanger).                                                |
+| `--memory_mapping`               | `boolean` | `false`                                                    | Use the Kraken2 memory mapping option, which avoids loading the whole database into memory. Recommended to shorten turnaround time when submitting large batch runs.                       |
+| `--kraken2_threads`              | `integer` | `4`                                                        | Number of threads for Kraken2.                                                                                                                                                             |
+| `--bracken_threads`              | `integer` | `10`                                                       | Number of threads for Bracken.                                                                                                                                                             |
+| `--kmer_len`                     | `integer` | `35`                                                       | K-mer length for Bracken.                                                                                                                                                                  |
+| `--read_len`                     | `integer` | `150`                                                      | Expected read length for Bracken (used to select the k-mer length during re-estimation).                                                                                                   |
+| `--bracken_classification_level` | `string`  | `S`                                                        | Taxonomic rank for Bracken re-estimation. Options: `D`, `P`, `C`, `O`, `F`, `G`, `S`. Classification accuracy cannot be checked at species level unless this is set to `S` (species).    |
+| `--threshold`                    | `integer` | `10`                                                       | Minimum number of reads required for a classification at the specified rank.                                                                                                              |
+| `--get_classified_reads`         | `boolean` | `false`                                                    | Retrieve classified reads.                                                                                                                                                                 |
+| `--enable_building`              | `boolean` | `false`                                                    | Enable automatic building of the Kraken2 database if it is not found on disk.                                                                                                              |
+| `--publish_full_kraken_report`   | `boolean` | `false`                                                    | Publish the full Kraken2 report, including taxa with zero reads assigned (`tsv.gz`), in addition to the sample report with present taxa only (`tsv`).                                     |
 
 ---
 
@@ -249,19 +279,6 @@ taxo profile Subworkflow Options
 | `--bracken_profile` | `boolean` | `false` | Run Kraken2Bracken taxonomic classification.
 | `--calculate_alpha_diverity` | `boolean` | `true` | Runs a script to calculate a series of alpha diversity statistics from the taxonomic_abundance estimates in *_syph_profile.tsv files. |
 | `--taxonomic_abundance_threshold` | ` float` | `0.01` | When calculating alpha diversity only calculate diversity on taxa with taxonomic abundance > taxonomic_abundance_threshold |
-
-
-**Bmtagger options**
-
-| Option                | Type      | Default                       | Description                                                                         |
-| --------------------- | --------- | ----------------------------- | ----------------------------------------------------------------------------------- |
-| `--run_bmtagger`      | `boolean` | `false`                       | Run bmtagger for host read removal.                                                 |
-| `--publish_host_data` | `boolean` | `false`                       | Publish the reads determined to originate from the host organism.                   |
-| `--bmtagger_db`       | `path`    | `/data/pam/software/bmtagger` | **Default related to Sanger only** Path to directory containing BMTagger database. |
-| `--bmtagger_host`     | `string`  | `T2T-CHM13v2.0`               | Reference genome version used for host read filtering.                              |
-
-
-
 
 
 ### Running outside of Sanger

@@ -99,6 +99,15 @@ The default k-mer length for sylph is `31`. Sylph supports `k = 21` or `k = 31`.
 
 Detailed pre-processing options can be found [here](#parameters) or by accessing the help menu in the pipeline by running `nextflow run qc-short-read/main.nf -h` or `qc-short-read -h` as a Sanger user after [loading the module](#using-on-the-sanger-farm-hpc). To turn the pre-processing subworkflow on/off use the `--preprocessing` options (default: `true`).
 
+#### BMTagger database
+
+The indexes for the complete human genome assemblies `hg38` and `T2T-CHM13v2.0` are available at `/data/pam/software/bmtagger` on the Sanger HPC.
+
+For external users, download from [NCBI](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/) and build the BMTagger index. For information on how to build the database, please refer to [the workflow documentation](./assorted-sub-workflows/mags_maker/metawrap_qc/README.md).
+
+To decontaminate against another human reference genome or a host other than human, provide a different BMTagger database prefix to `--bmtagger_db` and set `--bmtagger_host` to the corresponding reference name.
+
+
 ### Quickstart
 
 #### From source code
@@ -154,6 +163,17 @@ bsub -o ${jobname}.%J.o -e ${jobname}.%J.e -J ${jobname} -q oversubscribed -R "s
         --outdir my_output
 ```
 
+#### From code archive downloaded from the Github Release section or from Zenodo
+
+Please be aware that the code archive asset attached to a release will have empty folders for the dependcy submodules `assorted-sub-workflows` ([repository](https://github.com/sanger-pathogens/assorted-sub-workflows)) and `lib` (points to `nextflowtool` [repository](https://github.com/sanger-pathogens/nextflowtool)). The code executed from these archives will therefore **NOT** be functional. Unfortunately, the `.git` folder will be missing too, meaning that it is not a working `git` repository and submodule folders _cannot_ be populated with `git submodule init`.
+
+It is thus recommended to use the `git clone` approach described above, adding the commands below to get the code version referred to in the release:
+
+```bash
+git checkout <revision_tag> # e.g. revision_tag can be "v1.8.1"
+git pull --recurse-submodules
+```
+
 ### Output
 
 Results are written to `--outdir` (default: `./results`):
@@ -193,6 +213,24 @@ results/
 ```
 
 ### Parameters
+
+**Input options**
+
+Multiple input options are available, and can be combined. Providing at least one is mandatory.
+
+| Option                                          | Type   | Default | Description                                                                                                                                                                                                                   |
+| ----------------------------------------------- | ------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--manifest_of_reads`                           | `path` | `null`  | Input manifest CSV with required header `ID,R1,R2`.                                                                                                                                                                           |
+| `--manifest`                                    | `path` | `null`  | Same as `--manifest_of_reads` (alias).                                                                                                                                                                                        |
+| `--manifest_of_lanes`                           | `path` | `null`  | **Sanger users only:** Input manifest CSV for submission of multiple iRODS (meta)data queries; various header fields can be used that refer to iRODS metadata fields, including `sudyid`,`runid`,`laneid`,`plexid` or `type`. |
+| `--manifest_ena`                                | `path` | `null`  | Input manifest for submission of multiple ENA (meta)data queries; no header required, the only required content should be ENA accessions, one per line. This option should be accopanied by the `--accession_type` option.    |
+| `--accession_type`                              | `str`  | `"run"` | One of the following types: `run`, `study`, `sample`.                                                                                                                                                                         |
+| `--manifest_from_dir`                           | `path` | `null`  | Path to a folder containing paired Fastq files; file pairing will be done automatically; see help message from [the executed script](./assorted-sub-workflows/mixed_input/bin/generate_manifest.py).                          |
+| `sudyid`,`runid`,`laneid`,`plexid`, `type`, ... | `str`  | `null`  | **Sanger users only:** Individual fields to be combined to form a single iRODS query (similar syntax as with `--manifest_of_lanes`, but resulting in a separate, additional query).                                           |
+
+For more information, please read [the MIXED_INPUT workflow documentation](./assorted-sub-workflows/README.md).
+
+---
 
 **Logging options**
 
@@ -325,6 +363,8 @@ See the `assorted-sub-workflows/qc/modules/` and `assorted-sub-workflows/kraken2
 ## Troubleshooting
 
 - **Kraken2 database not found**: check that `--kraken2_db` points to a directory containing a valid Kraken2 database. On the Sanger HPC the default path should be available.
+- **BMTagger database not found**: ensure `--bmtagger_db` points to a directory containing a valid BMTagger index for the selected host reference. On the Sanger HPC the default path `/data/pam/software/bmtagger` should be available.
+- **Out of memory for BMTagger**: BMTagger loads the full database into memory. The default resource allocation uses 16 GB RAM; request more via a custom config if needed.
 - **iRODS authentication**: if using iRODS input, run `iinit` before launching the pipeline.
 - **Resuming a failed run**: add `-resume` to your command to restart from cached intermediate results.
 - For further help, check `.nextflow.log` and the per-process `.command.log` logs in the `work/` directory.

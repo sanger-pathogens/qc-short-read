@@ -100,7 +100,7 @@ This pipeline supports additional input modes via the `mixed_input` sub-workflow
 
 Run `--help` for the full parameter list.
 
-#### Kraken2 options
+#### Kraken2bracken options
 
 **Sanger users only** databases that can be found here:
 `/data/pam/software/kraken2/`
@@ -118,6 +118,8 @@ standard/k2_standard_20250402
 standard_08gb_20250402
 viral_20250402
 ```
+
+To select the read length passed to bracken, supply the argument `--read_len` (default: `150`). Classification can be specified by the taxonomic rank using `bracken_classification_level` (default:`S`). 
 
 #### Sylph options
 

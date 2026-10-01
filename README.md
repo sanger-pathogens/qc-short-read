@@ -179,9 +179,6 @@ results/
 
 The Kraken2 database defaults to a Sanger-internal path. To run outside of Sanger, download a Kraken2 database (e.g. the [standard database](https://benlangmead.github.io/aws-indexes/k2)) and supply its path via `--kraken2_db`.
 
-#### iRODS input
-
-When using iRODS input, authenticate first with `iinit` and use the `--studyid` / `--runid` parameters. See `qc-short-read --help` for all available iRODS filtering options.
 
 ### Dependencies
 

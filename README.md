@@ -119,7 +119,7 @@ To decontaminate against another human reference genome or a host other than hum
    cd qc-short-read
    ```
 
-2. To run with `docker`, use the `-profile docker` option:
+2. To run the pipeline using Docker container to support module dependencies, use the `-profile docker` option:
 
    ```bash
    nextflow run main.nf \
@@ -271,6 +271,8 @@ For more information, please read [the MIXED_INPUT workflow documentation](./ass
 | `--trim_baseq`          | `integer` | `20`                                                                                                                                                    | Average base quality cutoff for the sliding window for Trimmomatic.                 |
 | `--trim_min_length`     | `integer` | `70`                                                                                                                                                    | Minimum read length retained following trimming.                                    |
 | `--trimmomatic_options` | `string`  | `ILLUMINACLIP:${params.adapter_fasta}:2:10:7:1 CROP:151 SLIDINGWINDOW:${params.trim_window_size}:${params.trim_baseq} MINLEN:${params.trim_min_length}` | Trimmomatic command line options.                                                   |
+
+> Note: there is also the possibility to run the tandem repeat finder (TRF) tool with `--run_trf` but this behaviour is deprecated and turned off by default; we don't recommend turning it on as repeat removal is mostly thought to degrade sequencing data.
 
 ---
 

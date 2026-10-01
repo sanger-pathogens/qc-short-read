@@ -341,9 +341,7 @@ Users of the pipeline who want to be able to preprocess their reads (including a
 
 ### Dependencies
 
-All dependencies are containerised. The Kraken2 database must be available locally (see above for external users).
-
-## Software versions
+All dependencies are containerised.
 
 Key software used by the pipeline sub-workflows:
 
@@ -354,6 +352,7 @@ Key software used by the pipeline sub-workflows:
 | Bracken     | 2.8     | `quay.io/biocontainers/bracken:2.8--py310h0dbaff4_1`                                           |
 | MultiQC     | 1.19    | `quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0`                                             |
 | Sylph       | 0.8.1   | `gitlab-registry.internal.sanger.ac.uk/sanger-pathogens/docker-images/sylph:0.8.1--ha6fb395_0` |
+| Sylphtax.   | 1.7.0.  | `quay.io/biocontainers/sylph-tax:1.7.0--pyhdfd78af_0`                                          |
 | Trimmomatic | 0.39    | `quay.io/biocontainers/trimmomatic:0.39--1`                                                    |
 | TRF         | 4.09.1  | `quay.io/biocontainers/trf:4.09.1--h031d066_6`                                                 |
 | Bmtagger    | 3.101.  | `quay.io/biocontainers/bmtagger:3.101--h470a237_4`                                             |

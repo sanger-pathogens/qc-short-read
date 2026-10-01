@@ -19,6 +19,69 @@ The pipeline performs the following steps:
 
 ## Usage
 
+### Quickstart
+
+#### From source code
+
+1. Clone this repository with its submodules:
+
+   ```bash
+   git clone --recurse-submodules <repo-url>
+   cd qc-short-read
+   ```
+
+2. To run the pipeline using Docker container to support module dependencies, use the `-profile docker` option:
+
+   ```bash
+   nextflow run main.nf -profile docker [options]
+   ```
+
+   Other profiles are also supported (`singularity`, `conda`).
+   :warning: If no profile is specified the pipeline will run with the Sanger HPC-specific configuration.
+
+3. Once the run has finished successfully and you have inspected the output, clean up intermediate files. The `work/` directory and `.nextflow.log` are useful for troubleshooting — do not delete them until you are satisfied the outputs are correct:
+
+   ```bash
+   rm -rf work .nextflow*
+   ```
+
+   Alternatively, use `nextflow clean` for more fine-grained control over which runs and intermediate files are removed.
+
+#### Using on the Sanger "farm" HPC
+
+First load the latest pipeline module:
+
+```bash
+module load qc-short-read
+```
+
+Then run on the command line with `qc-short-read <options>`. For instance, to see a help message:
+
+```bash
+qc-short-read --help
+```
+
+Submit to LSF:
+
+```bash
+jobname="my_qc_short_read_run" # you can edit this!
+bsub -o ${jobname}.%J.o -e ${jobname}.%J.e -J ${jobname} -q oversubscribed -R "select[mem>4000] rusage[mem=4000]" -M4000 \
+    qc-short-read [options]
+```
+
+#### From code archive downloaded from the Github Release section or from Zenodo
+
+Please be aware that the code archive asset attached to a release will have empty folders for the dependcy submodules `assorted-sub-workflows` ([repository](https://github.com/sanger-pathogens/assorted-sub-workflows)) and `lib` (points to `nextflowtool` [repository](https://github.com/sanger-pathogens/nextflowtool)). The code executed from these archives will therefore **NOT** be functional. Unfortunately, the `.git` folder will be missing too, meaning that it is not a working `git` repository and submodule folders _cannot_ be populated with `git submodule init`.
+
+It is thus recommended to use the `git clone` approach described above, adding the commands below to get the code version referred to in the release:
+
+```bash
+git checkout <revision_tag> # e.g. revision_tag can be "v1.8.1"
+git pull --recurse-submodules
+```
+
+
+
 ### Input
 
 #### Manifest (`--manifest`)
@@ -108,71 +171,6 @@ For external users, download from [NCBI](https://www.ncbi.nlm.nih.gov/datasets/g
 To decontaminate against another human reference genome or a host other than human, provide a different BMTagger database prefix to `--bmtagger_db` and set `--bmtagger_host` to the corresponding reference name.
 
 
-### Quickstart
-
-#### From source code
-
-1. Clone this repository with its submodules:
-
-   ```bash
-   git clone --recurse-submodules <repo-url>
-   cd qc-short-read
-   ```
-
-2. To run the pipeline using Docker container to support module dependencies, use the `-profile docker` option:
-
-   ```bash
-   nextflow run main.nf \
-       -profile docker \
-       --manifest path/to/manifest.csv \
-       --outdir my_output
-   ```
-
-   Other profiles are also supported (`singularity`, `conda`).
-   :warning: If no profile is specified the pipeline will run with the Sanger HPC-specific configuration.
-
-3. Once the run has finished successfully and you have inspected the output, clean up intermediate files. The `work/` directory and `.nextflow.log` are useful for troubleshooting — do not delete them until you are satisfied the outputs are correct:
-
-   ```bash
-   rm -rf work .nextflow*
-   ```
-
-   Alternatively, use `nextflow clean` for more fine-grained control over which runs and intermediate files are removed.
-
-#### Using on the Sanger "farm" HPC
-
-First load the latest pipeline module:
-
-```bash
-module load qc-short-read
-```
-
-Then run on the command line with `qc-short-read <options>`. For instance, to see a help message:
-
-```bash
-qc-short-read --help
-```
-
-Submit to LSF:
-
-```bash
-jobname="my_qc_short_read_run" # you can edit this!
-bsub -o ${jobname}.%J.o -e ${jobname}.%J.e -J ${jobname} -q oversubscribed -R "select[mem>4000] rusage[mem=4000]" -M4000 \
-    qc-short-read \
-        --manifest path/to/manifest.csv \
-        --outdir my_output
-```
-
-#### From code archive downloaded from the Github Release section or from Zenodo
-
-Please be aware that the code archive asset attached to a release will have empty folders for the dependcy submodules `assorted-sub-workflows` ([repository](https://github.com/sanger-pathogens/assorted-sub-workflows)) and `lib` (points to `nextflowtool` [repository](https://github.com/sanger-pathogens/nextflowtool)). The code executed from these archives will therefore **NOT** be functional. Unfortunately, the `.git` folder will be missing too, meaning that it is not a working `git` repository and submodule folders _cannot_ be populated with `git submodule init`.
-
-It is thus recommended to use the `git clone` approach described above, adding the commands below to get the code version referred to in the release:
-
-```bash
-git checkout <revision_tag> # e.g. revision_tag can be "v1.8.1"
-git pull --recurse-submodules
-```
 
 ### Output
 

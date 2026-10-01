@@ -167,16 +167,15 @@ results/
 
 **Kraken2/Bracken options**
 
-| Option                           | Type      | Default                                                    | Description                                                                              |
-| -------------------------------- | --------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `--kraken2_db`                   | `path`    | `/data/pam/software/kraken2/standard/k2_standard_20250402` | Path to the Kraken2 database. Users external to Sanger will have to download an approrriate [Kraken2 database](#running-outside-of-sanger)      |
-| `--bracken_classification_level` | `string`  | `S`                                                        | Taxonomic rank for Bracken re-estimation. Options: `D`, `P`, `C`, `O`, `F`, `G`, `S`.    |
-| `--read_len`                     | `integer` | `150`                                                      | Expected read length for Bracken (used to select the k-mer length during re-estimation). |
+| Option                           | Type      | Default                                                    | Description                                                                                                                                |
+| -------------------------------- | --------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--kraken2_db`                   | `path`    | `/data/pam/software/kraken2/standard/k2_standard_20250402` | Path to the Kraken2 database. Users external to Sanger will have to download an approrriate [Kraken2 database](#running-outside-of-sanger) |
+| `--bracken_classification_level` | `string`  | `S`                                                        | Taxonomic rank for Bracken re-estimation. Options: `D`, `P`, `C`, `O`, `F`, `G`, `S`.                                                      |
+| `--read_len`                     | `integer` | `150`                                                      | Expected read length for Bracken (used to select the k-mer length during re-estimation).                                                   |
 
 ### Running outside of Sanger
 
 The Kraken2 database defaults to a Sanger-internal path. To run outside of Sanger, download a Kraken2 database (e.g. the [standard database](https://benlangmead.github.io/aws-indexes/k2)) and supply its path via `--kraken2_db`.
-
 
 ### Dependencies
 

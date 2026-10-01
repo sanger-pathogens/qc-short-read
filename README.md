@@ -13,8 +13,8 @@ QC-short-read is a Nextflow DSL2 pipeline for quality control and taxonomic prof
 The pipeline performs the following steps:
 
 1. **Input** — reads are loaded (see [Input](#input)).
-2. **Preprocessing** — optional adapter trimming and read length filtering (default: enabled).
-3. **QC** — FastQC is run on each sample; Kraken2 performs taxonomic classification and Bracken re-estimates species-level abundances.
+2. **Preprocessing** — Preprocessing steps can include trimming (default: enabled), and host read removal (default: disabled), depending on the parameters you specify .
+3. **QC** — FastQC is run on each sample; Kraken2 performs taxonomic classification and Bracken re-estimates species-level abundances; Sylph performed community profiling and abundance estimation which requires access to a Sylph database and Sylph taxonomy metadata.
 4. **Reporting** — MultiQC aggregates FastQC and Kraken2 results into a single HTML report.
 
 ## Usage
@@ -100,6 +100,52 @@ This pipeline supports additional input modes via the `mixed_input` sub-workflow
 
 Run `--help` for the full parameter list.
 
+#### Selecting a Kraken2 database
+
+**Sanger users only** databases that can be found here:
+`/data/pam/software/kraken2/`
+
+
+Currently installed databases are:
+```
+bacteria_fungi_protozoa_virus_db
+bacteria_fungi_protozoa_virus_db_08062026
+16S_Greengenes13.5_20200326
+16S_RDP11.5_20200326
+16S_Silva138_20200326
+pluspf_20250402
+standard/k2_standard_20250402
+standard_08gb_20250402
+viral_20250402
+```
+
+#### Selecting a Sylph database
+
+**Sanger users only** Sylph databases that can be found here:
+`/data/pam/software/sylph/`
+
+Currently installed databases are:
+```
+bacteria_fungi_protozoa_virus_db_07042026.syldb
+bacteria_fungi_protozoa_virus_db.syldb
+fungi_refseq_db.syldb
+globdb_r226_sylph_c1000
+globdb_r226_sylph_c200
+gtdb_full_r226.syldb
+gtdb-r220-c1000-dbv1
+gtdb-r220-c200-dbv1
+gtdb-r226-c1000-dbv1
+gtdb-r226-c200-dbv1
+gtdb-r232-c1000-dbv1
+gtdb-r232-c200-dbv1
+SMAG-c200-v0.3
+tara-eukmags-c200-v0.3
+uhgg_all_c200_v0.3.0
+```
+Please not that the `.syldb` file must be supplied and some are contained with subdirectories along with README.md files.
+
+
+
 ### Output
 
 Results are written to `--outdir` (default: `./results`):
@@ -174,7 +220,7 @@ results/
 | `--read_len`                     | `integer` | `150`                                                      | Expected read length for Bracken (used to select the k-mer length during re-estimation).                                                   |
 
 ### Running outside of Sanger
-
+#### Kraken2 databases
 The Kraken2 database defaults to a Sanger-internal path. To run outside of Sanger, download a Kraken2 database (e.g. the [standard database](https://benlangmead.github.io/aws-indexes/k2)) and supply its path via `--kraken2_db`.
 
 ### Dependencies
@@ -185,12 +231,17 @@ All dependencies are containerised. The Kraken2 database must be available local
 
 Key software used by the pipeline sub-workflows:
 
-| Software | Version | Image                                                   |
-| -------- | ------- | ------------------------------------------------------- |
-| FastQC   | 0.12.1  | `quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0`       |
-| Kraken2  | 2.1.3   | `quay.io/biocontainers/kraken2:2.1.3--pl5321hdcf5f25_0` |
-| Bracken  | 2.8     | `quay.io/biocontainers/bracken:2.8--py310h0dbaff4_1`    |
-| MultiQC  | 1.19    | `quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0`      |
+| Software    | Version | Image                                                   |
+| ----------- | ------- | ------------------------------------------------------- |
+| FastQC      | 0.12.1  | `quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0`       |
+| Kraken2     | 2.1.3   | `quay.io/biocontainers/kraken2:2.1.3--pl5321hdcf5f25_0` |
+| Bracken     | 2.8     | `quay.io/biocontainers/bracken:2.8--py310h0dbaff4_1`    |
+| MultiQC     | 1.19    | `quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0`      |
+| Sylph       | 0.8.1   | `gitlab-registry.internal.sanger.ac.uk/sanger-pathogens/docker-images/sylph:0.8.1--ha6fb395_0` |
+| Trimmomatic | 0.39    | `quay.io/biocontainers/trimmomatic:0.39--1`             |
+| TRF         | 4.09.1  | `quay.io/biocontainers/trf:4.09.1--h031d066_6`          |
+| Bmtagger    | 3.101.  | `quay.io/biocontainers/bmtagger:3.101--h470a237_4`      |
+
 
 See the `assorted-sub-workflows/qc/modules/` and `assorted-sub-workflows/kraken2bracken/modules/` directories for pinned container versions.
 

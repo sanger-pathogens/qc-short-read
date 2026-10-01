@@ -142,7 +142,7 @@ SMAG-c200-v0.3
 tara-eukmags-c200-v0.3
 uhgg_all_c200_v0.3.0
 ```
-Please not that the `.syldb` file must be supplied and some are contained with subdirectories along with README.md files.
+Please not that the `.syldb` file must be supplied and some are contained with subdirectories along with README.md files. Additionally, the kmer size selected must match the kmer sized used to sketch the databases.
 
 
 
@@ -211,6 +211,19 @@ results/
 
 ---
 
+**Trimmomatic options**
+
+| Option                  | Type      | Default                                                                                                                                                   | Description                                                                              |
+| ----------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `--run_trimmomatic`     | `boolean` | `true`                                                                                                                                                    | Run Trimmomatic for adapter removal and trimming for quality.                            |
+| `--adapter_fasta`       | `path`    | `/data/pam/software/trimmomatic/adapter_fastas/solexa-with-nextseqPR-adapters.fasta`                                                                      | **Default related to Sanger only** Path to fasta file containing adapter sequences.     |
+| `--trim_window_size`    | `integer` | `4`                                                                                                                                                       | Sliding window size for read trimming.                                                   |
+| `--trim_baseq`          | `integer` | `20`                                                                                                                                                      | Average base quality cutoff for the sliding window for Trimmomatic.                      |
+| `--trim_min_length`     | `integer` | `70`                                                                                                                                                      | Minimum read length retained following trimming.                                         |
+| `--trimmomatic_options` | `string`  | `ILLUMINACLIP:${params.adapter_fasta}:2:10:7:1 CROP:151 SLIDINGWINDOW:${params.trim_window_size}:${params.trim_baseq} MINLEN:${params.trim_min_length}` | Trimmomatic command line options.                                                        |
+
+--- 
+
 **Kraken2/Bracken options**
 
 | Option                           | Type      | Default                                                    | Description                                                                                                                                |
@@ -219,9 +232,47 @@ results/
 | `--bracken_classification_level` | `string`  | `S`                                                        | Taxonomic rank for Bracken re-estimation. Options: `D`, `P`, `C`, `O`, `F`, `G`, `S`.                                                      |
 | `--read_len`                     | `integer` | `150`                                                      | Expected read length for Bracken (used to select the k-mer length during re-estimation).                                                   |
 
+---
+
+**Sylph options**
+| Option                           | Type      | Default                                                    | Description                                                                                                                                |
+| -------------------------------- | --------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+taxo profile Subworkflow Options 
+| `--sylph_profile` | `boolean` | `true` | Run sylph taxonomic classification.
+| `--sylph_db` | `path` | `/data/pam/software/sylph/gtdb-r226-c200-dbv1/gtdb-r226-c200-dbv1.syldb` | **Default related to Sanger only** Path to sylph database. | 
+| `--save_sylph_sketches` | `boolean` | `false` | Keep sylph sketches. |
+| `--sylph_k` | `integer` | `31` | Value of k. Only k = 21, 31 are currently supported. |
+| `--sylph_tax_metadata` | `path` | `/data/pam/software/sylph-tax/v1/gtdb_r226_metadata.tsv` |  **Default related to Sanger only** Path to the sylph-tax metadata TSV to use for taxprof. |
+| `--genome_path_prefix` | `string` | `""` | Path to prefix sylph references in sylph database paths to make them resolvable. |
+| `--sylph_estimate_unknown` | `boolean` | `true` | Estimate proportion of classified sequences where the sum of Sequence_abundance column is the percentage of classified reads. |
+| `--sylph_read_seq_id` | `float` | `99.5` | Estimated percentage identity of your sequences (i.e. 100 - error percent). 99.5 is recommended for Illumina reads. Set this parameter to false to enable sylph to provide its own estimate for percentage identity. See Sylph documentation for additional information. |
+| `--bracken_profile` | `boolean` | `false` | Run Kraken2Bracken taxonomic classification.
+| `--calculate_alpha_diverity` | `boolean` | `true` | Runs a script to calculate a series of alpha diversity statistics from the taxonomic_abundance estimates in *_syph_profile.tsv files. |
+| `--taxonomic_abundance_threshold` | ` float` | `0.01` | When calculating alpha diversity only calculate diversity on taxa with taxonomic abundance > taxonomic_abundance_threshold |
+
+
+**Bmtagger options**
+
+| Option                | Type      | Default                       | Description                                                                         |
+| --------------------- | --------- | ----------------------------- | ----------------------------------------------------------------------------------- |
+| `--run_bmtagger`      | `boolean` | `false`                       | Run bmtagger for host read removal.                                                 |
+| `--publish_host_data` | `boolean` | `false`                       | Publish the reads determined to originate from the host organism.                   |
+| `--bmtagger_db`       | `path`    | `/data/pam/software/bmtagger` | **Default related to Sanger only** Path to directory containing BMTagger database. |
+| `--bmtagger_host`     | `string`  | `T2T-CHM13v2.0`               | Reference genome version used for host read filtering.                              |
+
+
+
+
+
 ### Running outside of Sanger
 #### Kraken2 databases
 The Kraken2 database defaults to a Sanger-internal path. To run outside of Sanger, download a Kraken2 database (e.g. the [standard database](https://benlangmead.github.io/aws-indexes/k2)) and supply its path via `--kraken2_db`.
+
+#### Sylph databases
+
+#### Trimmomatic
+
+Users of the pipeline who want to be able to preprocess their reads (including adapter removal) will need to supply a fasta file of their adapters uisng the `--adapter_fasta` option. 
 
 ### Dependencies
 

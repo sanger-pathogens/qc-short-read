@@ -19,61 +19,6 @@ The pipeline performs the following steps:
 
 ## Usage
 
-### Quickstart
-
-#### From source code
-
-1. Clone this repository with its submodules:
-
-   ```bash
-   git clone --recurse-submodules <repo-url>
-   cd qc-short-read
-   ```
-
-2. To run with `docker`, use the `-profile docker` option:
-
-   ```bash
-   nextflow run main.nf \
-       -profile docker \
-       --manifest path/to/manifest.csv \
-       --outdir my_output
-   ```
-
-   Other profiles are also supported (`singularity`, `conda`).
-   :warning: If no profile is specified the pipeline will run with the Sanger HPC-specific configuration.
-
-3. Once the run has finished successfully and you have inspected the output, clean up intermediate files. The `work/` directory and `.nextflow.log` are useful for troubleshooting — do not delete them until you are satisfied the outputs are correct:
-
-   ```bash
-   rm -rf work .nextflow*
-   ```
-
-   Alternatively, use `nextflow clean` for more fine-grained control over which runs and intermediate files are removed.
-
-#### Using on the Sanger "farm" HPC
-
-First load the latest pipeline module:
-
-```bash
-module load qc-short-read
-```
-
-Then run on the command line with `qc-short-read <options>`. For instance, to see a help message:
-
-```bash
-qc-short-read --help
-```
-
-Submit to LSF:
-
-```bash
-jobname="my_qc_short_read_run" # you can edit this!
-bsub -o ${jobname}.%J.o -e ${jobname}.%J.e -J ${jobname} -q oversubscribed -R "select[mem>4000] rusage[mem=4000]" -M4000 \
-    qc-short-read \
-        --manifest path/to/manifest.csv \
-        --outdir my_output
-```
-
 ### Input
 
 #### Manifest (`--manifest`)
@@ -153,6 +98,61 @@ The default k-mer length for sylph is `31`. Sylph supports `k = 21` or `k = 31`.
 #### Pre-processing and QC
 
 Detailed pre-processing options can be found [here](#parameters) or by accessing the help menu in the pipeline by running `nextflow run qc-short-read/main.nf -h` or `qc-short-read -h` as a Sanger user after [loading the module](#using-on-the-sanger-farm-hpc). To turn the pre-processing subworkflow on/off use the `--preprocessing` options (default: `true`).
+
+### Quickstart
+
+#### From source code
+
+1. Clone this repository with its submodules:
+
+   ```bash
+   git clone --recurse-submodules <repo-url>
+   cd qc-short-read
+   ```
+
+2. To run with `docker`, use the `-profile docker` option:
+
+   ```bash
+   nextflow run main.nf \
+       -profile docker \
+       --manifest path/to/manifest.csv \
+       --outdir my_output
+   ```
+
+   Other profiles are also supported (`singularity`, `conda`).
+   :warning: If no profile is specified the pipeline will run with the Sanger HPC-specific configuration.
+
+3. Once the run has finished successfully and you have inspected the output, clean up intermediate files. The `work/` directory and `.nextflow.log` are useful for troubleshooting — do not delete them until you are satisfied the outputs are correct:
+
+   ```bash
+   rm -rf work .nextflow*
+   ```
+
+   Alternatively, use `nextflow clean` for more fine-grained control over which runs and intermediate files are removed.
+
+#### Using on the Sanger "farm" HPC
+
+First load the latest pipeline module:
+
+```bash
+module load qc-short-read
+```
+
+Then run on the command line with `qc-short-read <options>`. For instance, to see a help message:
+
+```bash
+qc-short-read --help
+```
+
+Submit to LSF:
+
+```bash
+jobname="my_qc_short_read_run" # you can edit this!
+bsub -o ${jobname}.%J.o -e ${jobname}.%J.e -J ${jobname} -q oversubscribed -R "select[mem>4000] rusage[mem=4000]" -M4000 \
+    qc-short-read \
+        --manifest path/to/manifest.csv \
+        --outdir my_output
+```
 
 ### Output
 
@@ -322,7 +322,7 @@ Key software used by the pipeline sub-workflows:
 
 See the `assorted-sub-workflows/qc/modules/` and `assorted-sub-workflows/kraken2bracken/modules/` directories for pinned container versions.
 
-### Troubleshooting
+## Troubleshooting
 
 - **Kraken2 database not found**: check that `--kraken2_db` points to a directory containing a valid Kraken2 database. On the Sanger HPC the default path should be available.
 - **iRODS authentication**: if using iRODS input, run `iinit` before launching the pipeline.

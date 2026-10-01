@@ -173,9 +173,7 @@ results/
 | `--bracken_classification_level` | `string`  | `S`                                                        | Taxonomic rank for Bracken re-estimation. Options: `D`, `P`, `C`, `O`, `F`, `G`, `S`.    |
 | `--read_len`                     | `integer` | `150`                                                      | Expected read length for Bracken (used to select the k-mer length during re-estimation). |
 
-### Advanced usage
-
-#### Running outside of Sanger
+### Running outside of Sanger
 
 The Kraken2 database defaults to a Sanger-internal path. To run outside of Sanger, download a Kraken2 database (e.g. the [standard database](https://benlangmead.github.io/aws-indexes/k2)) and supply its path via `--kraken2_db`.
 
@@ -197,7 +195,7 @@ Key software used by the pipeline sub-workflows:
 
 See the `assorted-sub-workflows/qc/modules/` and `assorted-sub-workflows/kraken2bracken/modules/` directories for pinned container versions.
 
-## Troubleshooting
+### Troubleshooting
 
 - **Kraken2 database not found**: check that `--kraken2_db` points to a directory containing a valid Kraken2 database. On the Sanger HPC the default path should be available.
 - **iRODS authentication**: if using iRODS input, run `iinit` before launching the pipeline.

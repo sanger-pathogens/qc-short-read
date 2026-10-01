@@ -100,7 +100,7 @@ This pipeline supports additional input modes via the `mixed_input` sub-workflow
 
 Run `--help` for the full parameter list.
 
-#### Selecting a Kraken2 database
+#### Kraken2 options
 
 **Sanger users only** databases that can be found here:
 `/data/pam/software/kraken2/`
@@ -119,7 +119,7 @@ standard_08gb_20250402
 viral_20250402
 ```
 
-#### Selecting a Sylph database
+#### Sylph options
 
 **Sanger users only** Sylph databases that can be found here:
 `/data/pam/software/sylph/`
@@ -144,6 +144,7 @@ uhgg_all_c200_v0.3.0
 ```
 Please not that the `.syldb` file must be supplied and some are contained with subdirectories along with README.md files. Additionally, the kmer size selected must match the kmer sized used to sketch the databases.
 
+The default k-mer length for sylph is `31`. Sylph supports `k = 21` or `k = 31`. The pipline allows you to pass a parameter to sylph to estimate the percentage of unclassified reads (`-u flag`). To turn this estimation of unclassified reads off please use --sylph_estimate_unknown `false`. Sylph profiling is ran with `--read-seq-ID 99.5` which is used to specify the percentage identity of your sequences (i.e. 100 - error percent). By default, the pipeline sets this to 99.5 (recommended by Sylph for Illumina reads). If you wish to specify your own sequence identity, please use the parameter `--sylph_read_seq_id`. Sylph can also provide its own estimate for percentage identity; to enable this, please use `--sylph_read_seq_id false`.
 
 
 ### Output

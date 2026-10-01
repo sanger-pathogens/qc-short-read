@@ -80,8 +80,6 @@ git checkout <revision_tag> # e.g. revision_tag can be "v1.8.1"
 git pull --recurse-submodules
 ```
 
-
-
 ### Input
 
 #### Manifest (`--manifest`)
@@ -169,8 +167,6 @@ The indexes for the complete human genome assemblies `hg38` and `T2T-CHM13v2.0` 
 For external users, download from [NCBI](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/) and build the BMTagger index. For information on how to build the database, please refer to [the workflow documentation](./assorted-sub-workflows/mags_maker/metawrap_qc/README.md).
 
 To decontaminate against another human reference genome or a host other than human, provide a different BMTagger database prefix to `--bmtagger_db` and set `--bmtagger_host` to the corresponding reference name.
-
-
 
 ### Output
 

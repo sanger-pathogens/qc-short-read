@@ -233,7 +233,7 @@ For more information, please read [the MIXED_INPUT workflow documentation](./ass
 | Option                        | Type      | Default | Description                                                                                                                |
 | ----------------------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `--skip_cleanup`              | `boolean` | `false` | Skip cleanup of intermediate MultiQC files.                                                                                |
-| `--skip_preprocessing`             | `boolean` | `false`  | Run the preprocessing (adapter trimming) step before QC.                                                                   |
+| `--skip_preprocessing`        | `boolean` | `false` | Run the preprocessing (adapter trimming) step before QC.                                                                   |
 | `--publish_clean_reads`       | `boolean` | `true`  | Save the pre-processed reads (gzip-compressed) in the `preprocessing/` output folder.                                      |
 | `--publish_trimmomatic_reads` | `boolean` | `false` | Publish intermediate reads from the Trimmomatic process during pre-processing. Read sets will be uncompressed FASTQ files. |
 
@@ -328,17 +328,17 @@ All dependencies are containerised.
 
 Key software used by the pipeline sub-workflows:
 
-| Software    | Version | Image                                                                                          |
-| ----------- | ------- | ---------------------------------------------------------------------------------------------- |
-| FastQC      | 0.12.1  | `quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0`                                              |
-| Kraken2     | 2.1.3   | `quay.io/biocontainers/kraken2:2.1.3--pl5321hdcf5f25_0`                                        |
-| Bracken     | 2.8     | `quay.io/biocontainers/bracken:2.8--py310h0dbaff4_1`                                           |
-| MultiQC     | 1.19    | `quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0`                                             |
-| Sylph       | 0.8.1   | `quay.io/biocontainers/sylph:0.8.1--ha6fb395_0` |
-| Sylphtax.   | 1.2.0.  | `quay.io/biocontainers/sylph-tax:1.2.0--pyhdfd78af_0`                                          |
-| Trimmomatic | 0.39    | `quay.io/biocontainers/trimmomatic:0.39--1`                                                    |
-| TRF         | 4.09.1  | `quay.io/biocontainers/trf:4.09.1--h031d066_6`                                                 |
-| Bmtagger    | 3.101.  | `quay.io/biocontainers/bmtagger:3.101--h470a237_4`                                             |
+| Software    | Version | Image                                                   |
+| ----------- | ------- | ------------------------------------------------------- |
+| FastQC      | 0.12.1  | `quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0`       |
+| Kraken2     | 2.1.3   | `quay.io/biocontainers/kraken2:2.1.3--pl5321hdcf5f25_0` |
+| Bracken     | 2.8     | `quay.io/biocontainers/bracken:2.8--py310h0dbaff4_1`    |
+| MultiQC     | 1.19    | `quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0`      |
+| Sylph       | 0.8.1   | `quay.io/biocontainers/sylph:0.8.1--ha6fb395_0`         |
+| Sylphtax.   | 1.2.0.  | `quay.io/biocontainers/sylph-tax:1.2.0--pyhdfd78af_0`   |
+| Trimmomatic | 0.39    | `quay.io/biocontainers/trimmomatic:0.39--1`             |
+| TRF         | 4.09.1  | `quay.io/biocontainers/trf:4.09.1--h031d066_6`          |
+| Bmtagger    | 3.101.  | `quay.io/biocontainers/bmtagger:3.101--h470a237_4`      |
 
 See the `assorted-sub-workflows/qc/modules/` and `assorted-sub-workflows/kraken2bracken/modules/` directories for pinned container versions.
 
